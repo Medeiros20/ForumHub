@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 //DTO, USADO PARA O DETALHAMENTO DO TOPICO
 
-public record DadosDetalhamentoTopico(
+public record DadosListagemTopico(
         Long id,
         String titulo,
         String mensagem,
@@ -13,7 +13,7 @@ public record DadosDetalhamentoTopico(
         String autor,
         String curso
 ) {
-    public DadosDetalhamentoTopico(Topico topico) {
+    public DadosListagemTopico(Topico topico) {
         this(
                 topico.getId(),
                 topico.getTitulo(),
