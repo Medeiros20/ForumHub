@@ -71,4 +71,48 @@ public class TopicosController {
 
         return ResponseEntity.ok(pagina.map(DadosListagemTopico::new));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity detalhar(@PathVariable Long id){
+        var topico = topicosRepository.findById(id);
+
+        if (topico.isPresent()) {
+            return ResponseEntity.ok(new DadosDetalhamentoTopico(topico.get()));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/{id}")
+    @Transactional
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoTopico dados){
+        var topicoOptativo = topicosRepository.findById(id);
+
+        if (topicoOptativo.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var topico = topicoOptativo.get();
+
+        if (topicosRepository.existsByTituloAndMensagem(dados.titulo(), dados.mensagem())) {
+            return ResponseEntity.badRequest().body("Topico existente com esse titulo e mensagem");
+        }
+
+        topico.atualizarInformacoes(dados);
+
+        return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity excluir(@PathVariable Long id){
+        var topico = topicosRepository.findById(id);
+
+        if (topico.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        topicosRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

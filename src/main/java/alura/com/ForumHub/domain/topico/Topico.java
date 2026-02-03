@@ -3,6 +3,7 @@ package alura.com.ForumHub.domain.topico;
 import alura.com.ForumHub.domain.curso.Curso;
 import alura.com.ForumHub.domain.usuario.Usuario;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,4 +51,12 @@ public class Topico {
         this.curso = cursos;
     }
 
+    public void atualizarInformacoes(DadosAtualizacaoTopico dados) {
+        if (dados.titulo() != null) {
+            this.titulo = dados.titulo();
+        }
+        if (dados.mensagem() != null) {
+            this.mensagem = dados.mensagem();
+        }
+    }
 }
