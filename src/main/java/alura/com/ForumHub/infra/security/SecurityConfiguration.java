@@ -33,10 +33,12 @@ public class SecurityConfiguration {
                     req.requestMatchers(HttpMethod.GET, "/docs").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/login").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/topicos").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/topicos/{id}").permitAll();
                     req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();
                 })
-                // Configuração para tratar o 401 de forma padronizada quando o Token está ausente
+                // Configuração para tratar o 401 de forma padronizada quando não tiver Token
                 .exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) -> {
                     response.setStatus(401);
                     response.setContentType("application/json;charset=UTF-8");
